@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Wallet & Get USDT Balance</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="./dist/bundle.js"></script>
+    <style>
+        body { font-family: sans-serif; }
+        #connectWalletBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #walletAddress, #assetBalance {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button id="connectWalletBtn">Connect Wallet</button>
+    <div id="walletAddress"></div>
+    <div id="assetBalance"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const connectWalletBtn = document.getElementById('connectWalletBtn');
+            if (connectWalletBtn) {
+                connectWalletBtn.addEventListener('click', () => {
+                    // This is where your connectWallet function from script.js will be called
+                    // (assuming bundle.js loads correctly)
+                    console.log('Connect Wallet button clicked!');
+                    // You might want to trigger your connectWallet() function here
+                });
+            } else {
+                console.error("Connect wallet button element not found!");
+            }
+        });
+    </script>
+</body>
+</html>
