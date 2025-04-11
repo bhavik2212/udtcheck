@@ -15,7 +15,7 @@ let usdtContract = null;
 
 async function initializeWeb3Onboard() {
     const injected = injectedModule();
-    const walletConnect = walletConnectModule({ projectId: 'YOUR_WALLETCONNECT_PROJECT_ID' }); // Replace with your ID
+    const walletConnect = walletConnectModule({ projectId: '11553af2277197872988f5febf4ba87b' }); // Replace with your ID
 
     onboard = Onboard({
         wallets: [
