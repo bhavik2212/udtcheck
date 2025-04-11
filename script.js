@@ -15,7 +15,7 @@ let usdtContract = null;
 
 async function initializeWeb3Onboard() {
     const injected = injectedModule();
-    const walletConnect = walletConnectModule({ projectId: '11553af2277197872988f5febf4ba87b' }); // Replace with your ID
+    const walletConnect = walletConnectModule({ projectId: 'YOUR_WALLETCONNECT_PROJECT_ID' }); // Replace with your ID
 
     onboard = Onboard({
         wallets: [
@@ -36,22 +36,35 @@ async function initializeWeb3Onboard() {
             description: 'Connect wallet and view USDT balance on BSC'
         }
     });
+    console.log('onboard object after initialization:', onboard); // Added log
 }
 
 async function connectWallet() {
+    console.log('connectWallet function called');
     if (!onboard) {
+        console.log('onboard not initialized, calling initializeWeb3Onboard');
         await initializeWeb3Onboard();
+        console.log('initializeWeb3Onboard finished');
     }
 
-    const wallets = await onboard.connect();
-    if (wallets[0]) {
-        connectedAccount = wallets[0].accounts[0].address;
-        provider = new ethers.providers.Web3Provider(wallets[0].provider, 'bsc'); // Specify 'bsc' network
-        usdtContract = new ethers.Contract(usdtBnbContractAddress, usdtBnbAbi, provider);
-        document.getElementById('walletAddress').textContent = `Connected Wallet: ${connectedAccount.substring(0, 6)}...${connectedAccount.slice(-4)}`;
-        await displayUsdtBalance();
-    } else {
-        document.getElementById('walletAddress').textContent = 'Wallet connection failed.';
+    console.log('attempting to connect wallet');
+    try {
+        const wallets = await onboard.connect();
+        console.log('onboard.connect() returned:', wallets);
+
+        if (wallets && wallets[0]) {
+            connectedAccount = wallets[0].accounts[0].address;
+            provider = new ethers.providers.Web3Provider(wallets[0].provider, 'bsc'); // Specify 'bsc' network
+            usdtContract = new ethers.Contract(usdtBnbContractAddress, usdtBnbAbi, provider);
+            document.getElementById('walletAddress').textContent = `Connected Wallet: ${connectedAccount.substring(0, 6)}...${connectedAccount.slice(-4)}`;
+            await displayUsdtBalance();
+        } else {
+            document.getElementById('walletAddress').textContent = 'Wallet connection failed.';
+            document.getElementById('assetBalance').textContent = '';
+        }
+    } catch (error) {
+        console.error('Error connecting wallet:', error);
+        document.getElementById('walletAddress').textContent = 'Error connecting wallet.';
         document.getElementById('assetBalance').textContent = '';
     }
 }
